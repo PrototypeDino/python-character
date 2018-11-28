@@ -1,8 +1,34 @@
 version: '3'
 services:
   web:
-    build: .
+    image: csheet-flask
+    build:
+      context: ./flask
     ports:
       - "5000:5000"
     volumes:
       - .:/code
+    networks:
+      - charactersheet_network
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile.db
+    ports:
+      - "5984:5984"
+    volumes:
+      - dbvolume:/opt/couchdb/data
+    networks:
+      - charactersheet_network
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+
+networks:
+  charactersheet_network:
+    external: true
+
+volumes:
+  dbvolume:
+    external:
+      name: charactersheet-volume

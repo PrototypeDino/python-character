@@ -1,0 +1,6 @@
+FROM apache/couchdb:2.2.0
+
+COPY ./docker-entrypoint.sh .
+
+# ENTRYPOINT ["/docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash"]
